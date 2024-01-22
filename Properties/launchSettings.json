@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GyrfalconToolKit": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}
