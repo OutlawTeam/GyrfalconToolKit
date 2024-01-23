@@ -1,7 +1,6 @@
 ﻿using Gyrfalcon.Animation;
 using ImGuiNET;
 using OpenTK.Mathematics;
-using System.Speech.Recognition;
 
 namespace GyrfalconToolKit.Editor.Widget
 {
