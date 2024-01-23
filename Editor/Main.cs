@@ -18,12 +18,12 @@ namespace GyrfalconToolKit.Editor
         static void MainMenuBar()
         {
             var MainSubsystem = (MainSubsystem)SubsystemManager.GetSubsystem("MainSubsystem");
-            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 10));
+           // ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 10));
             if (ImGui.BeginMainMenuBar())
             {
                 ImGui.PopStyleVar();
 
-                ImGui.Image(MainSubsystem.Icon.Handle, new Vector2(35, 35));
+                ImGui.Image(MainSubsystem.Icon.Handle, new Vector2(20, 20));
                 if (ImGui.BeginMenu("Tools"))
                 {
                     if (ImGui.MenuItem("Skeleton Editor"))

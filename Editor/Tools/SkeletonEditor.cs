@@ -53,77 +53,96 @@ namespace GyrfalconToolKit.Editor.Tools
         }
         static void ShowSkeletonEditor()
         {
+            
+
             ImGui.Begin("Skeleton Editor", ImGuiWindowFlags.MenuBar);
-            if (ImGui.BeginMenuBar())
+            if (Ske != null)
             {
-                if (ImGui.BeginMenu("File"))
+                if (ImGui.Button("Reset Pose"))
                 {
-                    if (ImGui.MenuItem("Open"))
-                    {
-                        var Result = NativeFileDialogSharp.Dialog.FileOpen("gsk");
-                        if (Result.IsOk)
-                        {
-                            Ske = JsonConvert.DeserializeObject<Skeleton>(File.ReadAllText(Result.Path));
-                            Ske.ResetPose();
-                            InitialRootPos = Ske.InitialJoint._IntialPosition;
-                        }
-                    }
-                    if (ImGui.MenuItem("Save","Ctrl+S"))
-                    {
-                        var Result = NativeFileDialogSharp.Dialog.FileSave("gsk");
-                        if (Result.IsOk)
-                        {
-                            File.WriteAllText(Result.Path + ".gsk", JsonConvert.SerializeObject(Ske, Formatting.Indented));
-                        }
-                    }
-                    if (ImGui.MenuItem("Import from 3d model"))
-                    {
-                        SkeletonImportopen = true;
-
-                    }
-                    if (ImGui.MenuItem("Open 3d model for test"))
-                    {
-                        var Result = NativeFileDialogSharp.Dialog.FileOpen("gltf,fbx");
-                        if (Result.IsOk)
-                        {
-                            DebugModel = new(Result.Path);
-                        }
-                    }
-                    ImGui.EndMenu();
+                    Ske.ResetPose();
                 }
-                ImGui.EndMenuBar();
-                if (Ske != null)
+                if (ImGui.DragFloat3("Root Position", ref InitialRootPos, 0.01f))
                 {
-                    if (ImGui.Button("Reset Pose"))
-                    {
-                        Ske.ResetPose();
-                    }
-                    if (ImGui.DragFloat3("Root Position", ref InitialRootPos, 0.01f))
-                    {
-                        Ske.InitialJoint._IntialPosition = InitialRootPos;
-                    }
-                    DrawJointTree(Ske.InitialJoint);
-
-                    ImGui.Checkbox("Show Debug Model", ref ShowDebugModel);
+                    Ske.InitialJoint._IntialPosition = InitialRootPos;
                 }
+                DrawJointTree(Ske.InitialJoint);
+
+                ImGui.Checkbox("Show Debug Model", ref ShowDebugModel);
+                
             }
             ImGui.End();
+
         }
         internal static void Update(MainSubsystem sub)
         {
             var viewport = ImGui.GetMainViewport();
+            float height = ImGui.GetFrameHeight();
+            ImGuiWindowFlags window_flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.MenuBar;
+            if (ImGui.BeginViewportSideBar("##SecondaryMenuBar", viewport, ImGuiDir.Up, height, window_flags))
+            {
+                if (ImGui.BeginMenuBar())
+                {
+                    if (ImGui.BeginMenu("File"))
+                    {
+                        if (ImGui.MenuItem("Open"))
+                        {
+                            var Result = NativeFileDialogSharp.Dialog.FileOpen("gsk");
+                            if (Result.IsOk)
+                            {
+                                Ske = JsonConvert.DeserializeObject<Skeleton>(File.ReadAllText(Result.Path));
+                                Ske.ResetPose();
+                                InitialRootPos = Ske.InitialJoint._IntialPosition;
+                            }
+                        }
+                        if (ImGui.MenuItem("Save", "Ctrl+S"))
+                        {
+                            var Result = NativeFileDialogSharp.Dialog.FileSave("gsk");
+                            if (Result.IsOk)
+                            {
+                                File.WriteAllText(Result.Path + ".gsk", JsonConvert.SerializeObject(Ske, Formatting.Indented));
+                            }
+                        }
+                        if (ImGui.MenuItem("Import from 3d model"))
+                        {
+                            SkeletonImportopen = true;
+
+                        }
+                        if (ImGui.MenuItem("Open 3d model for test"))
+                        {
+                            var Result = NativeFileDialogSharp.Dialog.FileOpen("gltf,fbx");
+                            if (Result.IsOk)
+                            {
+                                DebugModel = new(Result.Path);
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
+                    ImGui.EndMenuBar();
+                }
+                ImGui.End();
+            }
             ShowSkeletonEditor();
+            if (ImGui.BeginViewportSideBar("##InfoMenuBar", viewport, ImGuiDir.Down, height, window_flags))
+            {
+                if (ImGui.BeginMenuBar())
+                {
+
+                    if (Ske != null)
+                    {
+                        ImGui.Text("Joints number: " + Ske.Joints.Count);
+                    }else
+                    {
+                        ImGui.Text("Joints number: None");
+                    }
+                    ImGui.EndMenuBar();
+                }
+                ImGui.End();
+            }
             if (Ske != null)
             {
                 InitialRootPos = Ske.InitialJoint._IntialPosition;
             }
-            ImGui.Begin("Infos");
-
-            if (Ske != null)
-            {
-                ImGui.Text("Joints number: " + Ske.Joints.Count);
-            }
-            ImGui.End();
             if (SkeletonImportopen)
             {
                 ImGui.OpenPopup("Import Skeleton");
@@ -169,6 +188,10 @@ namespace GyrfalconToolKit.Editor.Tools
             if (Ske != null)
             {
                 Ske.DebugDraw();
+            }
+            if (DebugModel != null && ShowDebugModel)
+            {
+                DebugModel.Render(Matrix4.Identity, Ske, true);
             }
         }
         internal static void Render()

@@ -122,34 +122,38 @@ namespace GyrfalconToolKit.Editor.Tools
         }
         internal static void Update(MainSubsystem sub)
         {
+            
             var viewport = ImGui.GetMainViewport();
-            ImGui.Begin("Animation Editor", ImGuiWindowFlags.MenuBar);
-            if (ImGui.BeginMenuBar())
+            float height = ImGui.GetFrameHeight();
+            ImGuiWindowFlags window_flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.MenuBar;
+            if (ImGui.BeginViewportSideBar("##SecondaryMenuBar", viewport, ImGuiDir.Up, height, window_flags))
             {
-                if (ImGui.BeginMenu("File"))
+                if (ImGui.BeginMenuBar())
                 {
-                    if (ImGui.MenuItem("Save","Ctrl+S"))
+                    if (ImGui.BeginMenu("File"))
                     {
-                        Save();
+                        if (ImGui.MenuItem("Save", "Ctrl+S"))
+                        {
+                            Save();
+                        }
+                        if (ImGui.MenuItem("Open Skeleton File", "Ctrl+O"))
+                        {
+                            OpenSkeleton();
+                        }
+                        if (ImGui.MenuItem("Open 3d model for test", "Ctrl+M"))
+                        {
+                            OpenDebugModel();
+                        }
+                        if (ImGui.MenuItem("Open 3d model for animation", "Ctrl+A"))
+                        {
+                            OpenModelAnimation();
+                        }
+                        ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Open Skeleton File","Ctrl+O"))
-                    {
-                        OpenSkeleton();
-                    }
-                    if (ImGui.MenuItem("Open 3d model for test", "Ctrl+M"))
-                    {
-                        OpenDebugModel();
-                    }
-                    if (ImGui.MenuItem("Open 3d model for animation", "Ctrl+A"))
-                    {
-                        OpenModelAnimation();
-                    }
-                    ImGui.EndMenu();
+                    ImGui.EndMenuBar();
                 }
-                ImGui.EndMenuBar();
-                
+                ImGui.End();
             }
-            ImGui.End();
             Widget.Render.ShowRender();
             ImGui.Begin("Animation Timeline");
             AnimationTimeLine.Update(ref CurrentTick, ref Anim.TickPerSecond, ref Anim.Duration, ref CurrentTimelineZoom, Anim);
@@ -213,6 +217,10 @@ namespace GyrfalconToolKit.Editor.Tools
                 }
                 Ske.DebugDraw();
 
+            }
+            if(DebugModel != null && ShowDebugModel)
+            {
+                DebugModel.Render(Matrix4.Identity, Ske, true);
             }
         }
         internal static void Render()

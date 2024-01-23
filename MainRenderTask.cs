@@ -13,23 +13,20 @@ namespace GyrfalconToolKit
     {
         
         public string Name => "MainRenderTask";
+
+        public void ForwardPass()
+        {
+            GridRenderer.Render(CameraManager.Cam.GetViewMatrix(), Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(70), Renderer.Aspect, 0.1f, 100)); ;
+
+        }
+
         public void PreRender()
         {
         }
 
-        public void Render(bool shadowpass)
+        public void ShadowPass()
         {
-            MainSubsystem SB = (MainSubsystem)SubsystemManager.GetSubsystem("MainSubsystem");
-            GridRenderer.Render(CameraManager.Cam.GetViewMatrix(), Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(70), Renderer.Aspect, 0.1f, 100));;
-            if(EditorState.SkeletonEditorActive)
-            {
-                SkeletonEditor.Render();
-            }else if (EditorState.AnimationEditorActive)
-            {
-                AnimationEditor.Render();
-            }
         }
-
 
         public void Update()
         {
