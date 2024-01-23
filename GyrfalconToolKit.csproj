@@ -8,7 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NativeFileDialogSharp" Version="0.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Gyrfalcon\Gyrfalcon\Gyrfalcon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Themes\DarkVS.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Themes\Theme.thc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Themes\Unreal.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

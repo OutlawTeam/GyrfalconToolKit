@@ -1,0 +1,422 @@
+{
+  "Name": "Unreal",
+  "Alpha": 1.0,
+  "DisabledAlpha": 0.6,
+  "WindowPadding": {
+    "X": 8.0,
+    "Y": 8.0
+  },
+  "WindowRounding": 0.0,
+  "WindowBorderSize": 1.0,
+  "WindowMinSize": {
+    "X": 32.0,
+    "Y": 32.0
+  },
+  "WindowTitleAlign": {
+    "X": 0.0,
+    "Y": 0.5
+  },
+  "ChildRounding": 0.0,
+  "ChildBorderSize": 1.0,
+  "PopupRounding": 0.0,
+  "PopupBorderSize": 1.0,
+  "FramePadding": {
+    "X": 4.0,
+    "Y": 3.0
+  },
+  "FrameRounding": 0.0,
+  "FrameBorderSize": 0.0,
+  "ItemSpacing": {
+    "X": 8.0,
+    "Y": 4.0
+  },
+  "ItemInnerSpacing": {
+    "X": 4.0,
+    "Y": 4.0
+  },
+  "CellPadding": {
+    "X": 4.0,
+    "Y": 2.0
+  },
+  "TouchExtraPadding": {
+    "X": 0.0,
+    "Y": 0.0
+  },
+  "IndentSpacing": 21.0,
+  "ColumnsMinSpacing": 6.0,
+  "ScrollbarSize": 14.0,
+  "ScrollbarRounding": 9.0,
+  "GrabMinSize": 10.0,
+  "GrabRounding": 0.0,
+  "LogSliderDeadzone": 4.0,
+  "TabRounding": 4.0,
+  "TabBorderSize": 0.0,
+  "TabMinWidthForCloseButton": 0.0,
+  "ButtonTextAlign": {
+    "X": 0.5,
+    "Y": 0.5
+  },
+  "SelectableTextAlign": {
+    "X": 0.0,
+    "Y": 0.0
+  },
+  "SeparatorTextBorderSize": 3.0,
+  "SeparatorTextAlign": {
+    "X": 0.0,
+    "Y": 0.0
+  },
+  "SeparatorTextPadding": {
+    "X": 20.0,
+    "Y": 3.0
+  },
+  "DisplayWindowPadding": {
+    "X": 19.0,
+    "Y": 19.0
+  },
+  "DisplaySafeAreaPadding": {
+    "X": 3.0,
+    "Y": 3.0
+  },
+  "DockingSeparatorSize": 2.0,
+  "MouseCursorScale": 1.0,
+  "AntiAliasedLines": true,
+  "AntiAliasedLinesUseTex": true,
+  "AntiAliasedFill": true,
+  "CurveTessellationTol": 1.25,
+  "CircleTessellationMaxError": 0.3,
+  "HoverStationaryDelay": 0.15,
+  "HoverDelayShort": 0.15,
+  "HoverDelayNormal": 0.4,
+  "Colors": {
+    "Text": {
+      "X": 1.0,
+      "Y": 1.0,
+      "Z": 1.0,
+      "W": 1.0
+    },
+    "TextDisabled": {
+      "X": 0.49803922,
+      "Y": 0.49803922,
+      "Z": 0.49803922,
+      "W": 1.0
+    },
+    "WindowBg": {
+      "X": 0.05882353,
+      "Y": 0.05882353,
+      "Z": 0.05882353,
+      "W": 0.94
+    },
+    "ChildBg": {
+      "X": 1.0,
+      "Y": 1.0,
+      "Z": 1.0,
+      "W": 0.0
+    },
+    "PopupBg": {
+      "X": 0.078431375,
+      "Y": 0.078431375,
+      "Z": 0.078431375,
+      "W": 0.94
+    },
+    "Border": {
+      "X": 0.42745098,
+      "Y": 0.42745098,
+      "Z": 0.49803922,
+      "W": 0.5
+    },
+    "BorderShadow": {
+      "X": 0.0,
+      "Y": 0.0,
+      "Z": 0.0,
+      "W": 0.0
+    },
+    "FrameBg": {
+      "X": 0.2,
+      "Y": 0.20784314,
+      "Z": 0.21960784,
+      "W": 0.54
+    },
+    "FrameBgHovered": {
+      "X": 0.4,
+      "Y": 0.4,
+      "Z": 0.4,
+      "W": 0.4
+    },
+    "FrameBgActive": {
+      "X": 0.1764706,
+      "Y": 0.1764706,
+      "Z": 0.1764706,
+      "W": 0.67
+    },
+    "TitleBg": {
+      "X": 0.039215688,
+      "Y": 0.039215688,
+      "Z": 0.039215688,
+      "W": 1.0
+    },
+    "TitleBgActive": {
+      "X": 0.28627452,
+      "Y": 0.28627452,
+      "Z": 0.28627452,
+      "W": 1.0
+    },
+    "TitleBgCollapsed": {
+      "X": 0.0,
+      "Y": 0.0,
+      "Z": 0.0,
+      "W": 0.51
+    },
+    "MenuBarBg": {
+      "X": 0.13725491,
+      "Y": 0.13725491,
+      "Z": 0.13725491,
+      "W": 1.0
+    },
+    "ScrollbarBg": {
+      "X": 0.019607844,
+      "Y": 0.019607844,
+      "Z": 0.019607844,
+      "W": 0.53
+    },
+    "ScrollbarGrab": {
+      "X": 0.30980393,
+      "Y": 0.30980393,
+      "Z": 0.30980393,
+      "W": 1.0
+    },
+    "ScrollbarGrabHovered": {
+      "X": 0.40784314,
+      "Y": 0.40784314,
+      "Z": 0.40784314,
+      "W": 1.0
+    },
+    "ScrollbarGrabActive": {
+      "X": 0.50980395,
+      "Y": 0.50980395,
+      "Z": 0.50980395,
+      "W": 1.0
+    },
+    "CheckMark": {
+      "X": 0.9372549,
+      "Y": 0.9372549,
+      "Z": 0.9372549,
+      "W": 1.0
+    },
+    "SliderGrab": {
+      "X": 0.50980395,
+      "Y": 0.50980395,
+      "Z": 0.50980395,
+      "W": 1.0
+    },
+    "SliderGrabActive": {
+      "X": 0.85882354,
+      "Y": 0.85882354,
+      "Z": 0.85882354,
+      "W": 1.0
+    },
+    "Button": {
+      "X": 0.4392157,
+      "Y": 0.4392157,
+      "Z": 0.4392157,
+      "W": 0.4
+    },
+    "ButtonHovered": {
+      "X": 0.45882353,
+      "Y": 0.46666667,
+      "Z": 0.47843137,
+      "W": 1.0
+    },
+    "ButtonActive": {
+      "X": 0.41960785,
+      "Y": 0.41960785,
+      "Z": 0.41960785,
+      "W": 1.0
+    },
+    "Header": {
+      "X": 0.69803923,
+      "Y": 0.69803923,
+      "Z": 0.69803923,
+      "W": 0.31
+    },
+    "HeaderHovered": {
+      "X": 0.69803923,
+      "Y": 0.69803923,
+      "Z": 0.69803923,
+      "W": 0.8
+    },
+    "HeaderActive": {
+      "X": 0.47843137,
+      "Y": 0.49803922,
+      "Z": 0.5176471,
+      "W": 1.0
+    },
+    "Separator": {
+      "X": 0.42745098,
+      "Y": 0.42745098,
+      "Z": 0.49803922,
+      "W": 0.5
+    },
+    "SeparatorHovered": {
+      "X": 0.7176471,
+      "Y": 0.7176471,
+      "Z": 0.7176471,
+      "W": 0.78
+    },
+    "SeparatorActive": {
+      "X": 0.50980395,
+      "Y": 0.50980395,
+      "Z": 0.50980395,
+      "W": 1.0
+    },
+    "ResizeGrip": {
+      "X": 0.9098039,
+      "Y": 0.9098039,
+      "Z": 0.9098039,
+      "W": 0.25
+    },
+    "ResizeGripHovered": {
+      "X": 0.80784315,
+      "Y": 0.80784315,
+      "Z": 0.80784315,
+      "W": 0.67
+    },
+    "ResizeGripActive": {
+      "X": 0.45882353,
+      "Y": 0.45882353,
+      "Z": 0.45882353,
+      "W": 0.95
+    },
+    "Tab": {
+      "X": 0.1764706,
+      "Y": 0.34901962,
+      "Z": 0.5764706,
+      "W": 0.862
+    },
+    "TabHovered": {
+      "X": 0.25882354,
+      "Y": 0.5882353,
+      "Z": 0.9764706,
+      "W": 0.8
+    },
+    "TabActive": {
+      "X": 0.19607843,
+      "Y": 0.40784314,
+      "Z": 0.6784314,
+      "W": 1.0
+    },
+    "TabUnfocused": {
+      "X": 0.06666667,
+      "Y": 0.101960786,
+      "Z": 0.14509805,
+      "W": 0.9724
+    },
+    "TabUnfocusedActive": {
+      "X": 0.13333334,
+      "Y": 0.25882354,
+      "Z": 0.42352942,
+      "W": 1.0
+    },
+    "DockingPreview": {
+      "X": 0.26,
+      "Y": 0.59,
+      "Z": 0.98,
+      "W": 0.7
+    },
+    "DockingEmptyBg": {
+      "X": 0.2,
+      "Y": 0.2,
+      "Z": 0.2,
+      "W": 1.0
+    },
+    "PlotLines": {
+      "X": 0.60784316,
+      "Y": 0.60784316,
+      "Z": 0.60784316,
+      "W": 1.0
+    },
+    "PlotLinesHovered": {
+      "X": 1.0,
+      "Y": 0.42745098,
+      "Z": 0.34901962,
+      "W": 1.0
+    },
+    "PlotHistogram": {
+      "X": 0.7294118,
+      "Y": 0.6,
+      "Z": 0.14901961,
+      "W": 1.0
+    },
+    "PlotHistogramHovered": {
+      "X": 1.0,
+      "Y": 0.6,
+      "Z": 0.0,
+      "W": 1.0
+    },
+    "TableHeaderBg": {
+      "X": 0.1882353,
+      "Y": 0.1882353,
+      "Z": 0.2,
+      "W": 1.0
+    },
+    "TableBorderStrong": {
+      "X": 0.30980393,
+      "Y": 0.30980393,
+      "Z": 0.34901962,
+      "W": 1.0
+    },
+    "TableBorderLight": {
+      "X": 0.22745098,
+      "Y": 0.22745098,
+      "Z": 0.24705882,
+      "W": 1.0
+    },
+    "TableRowBg": {
+      "X": 0.0,
+      "Y": 0.0,
+      "Z": 0.0,
+      "W": 0.0
+    },
+    "TableRowBgAlt": {
+      "X": 1.0,
+      "Y": 1.0,
+      "Z": 1.0,
+      "W": 0.06
+    },
+    "TextSelectedBg": {
+      "X": 0.8666667,
+      "Y": 0.8666667,
+      "Z": 0.8666667,
+      "W": 0.35
+    },
+    "DragDropTarget": {
+      "X": 1.0,
+      "Y": 1.0,
+      "Z": 0.0,
+      "W": 0.9
+    },
+    "NavHighlight": {
+      "X": 0.6,
+      "Y": 0.6,
+      "Z": 0.6,
+      "W": 1.0
+    },
+    "NavWindowingHighlight": {
+      "X": 1.0,
+      "Y": 1.0,
+      "Z": 1.0,
+      "W": 0.7
+    },
+    "NavWindowingDimBg": {
+      "X": 0.8,
+      "Y": 0.8,
+      "Z": 0.8,
+      "W": 0.2
+    },
+    "ModalWindowDimBg": {
+      "X": 0.8,
+      "Y": 0.8,
+      "Z": 0.8,
+      "W": 0.35
+    }
+  }
+}
