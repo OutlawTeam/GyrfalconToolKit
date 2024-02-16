@@ -1,4 +1,4 @@
-﻿using Gyrfalcon.Animation;
+﻿using Gyrfalcon.Engine.Module.Animation;
 using ImGuiNET;
 using OpenTK.Mathematics;
 
@@ -53,7 +53,7 @@ namespace GyrfalconToolKit.Editor.Widget
 
             ImGui.InputInt("Current Tick", ref CurrentTick);
 
-            ImGui.BeginChild("Time", new Vector2(CanvasSize.X, anim.JointsAnimationData.Count * 20 + 50),false, ImGuiWindowFlags.AlwaysHorizontalScrollbar);
+            ImGui.BeginChild("Time", new Vector2(CanvasSize.X, anim.Joints.Count * 20 + 50), false, ImGuiWindowFlags.AlwaysHorizontalScrollbar);
 
             Vector2 Pos = ImGui.GetCursorScreenPos();
             CanvasSize = ImGui.GetContentRegionAvail();
@@ -81,10 +81,10 @@ namespace GyrfalconToolKit.Editor.Widget
 
             bool Odd = true;
             float CurrentY = Pos.Y + 20;
-            foreach (var Joint in anim.JointsAnimationData.Values)
+            foreach (var Joint in anim.Joints)
             {
                 ImGui.GetWindowDrawList().AddRectFilled(new Vector2(Pos.X, CurrentY), new Vector2(Pos.X + Size.X, CurrentY + 20), ImGui.GetColorU32(Odd ? new Vector4(0.5f, 0.5f, 0.5f, 1) : new Vector4(0.7f, 0.7f, 0.7f, 1)));
-                ImGui.GetWindowDrawList().AddText(new Vector2(Pos.X + 5, CurrentY + 5), ImGui.GetColorU32(new Vector4(0, 0, 0, 1)), Joint.JointName);
+                ImGui.GetWindowDrawList().AddText(new Vector2(Pos.X + 5, CurrentY + 5), ImGui.GetColorU32(new Vector4(0, 0, 0, 1)), Joint.Name);
                 CurrentY += 20;
                 Odd = !Odd;
             }

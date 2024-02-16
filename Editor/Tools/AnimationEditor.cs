@@ -1,27 +1,22 @@
-﻿
-using Gyrfalcon.Animation;
-using Gyrfalcon.Render.PBR;
-using Gyrfalcon.Render;
+﻿using Assimp;
+using Gyrfalcon.Engine;
+using Gyrfalcon.Engine.Module.Animation;
+using Gyrfalcon.Engine.Module.Luxon;
+using Gyrfalcon.Engine.Module.Luxon.Data;
 using ImGuiNET;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
-using Quaternion = OpenTK.Mathematics.Quaternion;
-using Assimp;
-using Animation = Gyrfalcon.Animation.Animation;
-using GyrfalconToolKit.Editor.Widget;
-using Gyrfalcon.Maths;
-using Gyrfalcon.Engine;
+using Animation = Gyrfalcon.Engine.Module.Animation.Animation;
+using Material = Gyrfalcon.Engine.Module.Luxon.Data.Material;
 namespace GyrfalconToolKit.Editor.Tools
 {
     internal static class AnimationEditor
     {
-        static public  Skeleton Ske = null;
+        static public Skeleton Ske = null;
         static public Animation Anim = new();
-        static PBRAnimatedModel DebugModel = null;
-        static Timeline AnimationTimeLine = new();
+        static public AnimationController Animator;
+        static AnimatedModel DebugModel = null;
         static bool ShowDebugModel = false;
-        static public int CurrentTick = 0;
-        static float CurrentTimelineZoom = 1;
         static bool PlayAnimation = false;
         static public string SelectedJoint = "";
         internal static void Save()
@@ -41,6 +36,7 @@ namespace GyrfalconToolKit.Editor.Tools
             {
                 Ske = JsonConvert.DeserializeObject<Skeleton>(File.ReadAllText(Result.Path));
                 Ske.ResetPose();
+                Animator = new(Ske);
             }
         }
         internal static void OpenDebugModel()
@@ -54,7 +50,7 @@ namespace GyrfalconToolKit.Editor.Tools
         }
         internal static void OpenModelAnimation()
         {
-            var Result = NativeFileDialogSharp.Dialog.FileOpen("gltf,fbx");
+            var Result = NativeFileDialogSharp.Dialog.FileOpen("gltf,fbx,glb");
             if (Result.IsOk)
             {
                 LoadAnimation(Result.Path);
@@ -63,10 +59,10 @@ namespace GyrfalconToolKit.Editor.Tools
         internal static void DrawJointTree(Joint joint)
         {
             if (ImGui.TreeNode(joint.Name))
-            { 
-                
+            {
+
                 ImGui.SameLine();
-                if(ImGui.Selectable(joint.Name+"##0",true, ImGuiSelectableFlags.AllowOverlap))
+                if (ImGui.Selectable(joint.Name + "##0", true, ImGuiSelectableFlags.AllowOverlap))
                 {
                     SelectedJoint = joint.Name;
                 }
@@ -94,35 +90,21 @@ namespace GyrfalconToolKit.Editor.Tools
             int size = animation.NodeAnimationChannelCount;
 
             var boneInfoMap = Ske.JointsMap;//getting m_BoneInfoMap from Model class
-            int boneCount = Ske.Joints.Count;
             //reading channels(bones engaged in an animation and their keyframes)
+            Anim.Joints = new(size);
             for (int i = 0; i < size; i++)
             {
                 var channel = animation.NodeAnimationChannels[i];
                 string boneName = channel.NodeName;
-                if (Anim.JointsAnimationData.ContainsKey(boneName))
+                if (boneInfoMap.ContainsKey(boneName))
                 {
-                    var Jt = Anim.JointsAnimationData[boneName];
-                    int m_NumRotations = channel.RotationKeyCount;
-                    for (int rotationIndex = 0; rotationIndex < m_NumRotations; ++rotationIndex)
-                    {
-                        double timeStamp = channel.RotationKeys[rotationIndex].Time;
-                        RotationKey data = new();
-                        data.Rotation = new Quaternion(channel.RotationKeys[rotationIndex].Value.X, channel.RotationKeys[rotationIndex].Value.Y, channel.RotationKeys[rotationIndex].Value.Z, channel.RotationKeys[rotationIndex].Value.W);
-                        data.Timestamp = (float)timeStamp;
-                        Jt.Data.Add(data);
-                        //Console.WriteLine("Rotation:" + data.orientation);
-                    }
-
-
+                    Anim.Joints.Add(new AnimationJoint(boneName, channel));
                 }
             }
-
-
         }
-        internal static void Update(MainSubsystem sub)
+        internal static void Update()
         {
-            
+
             var viewport = ImGui.GetMainViewport();
             float height = ImGui.GetFrameHeight();
             ImGuiWindowFlags window_flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.MenuBar;
@@ -155,9 +137,10 @@ namespace GyrfalconToolKit.Editor.Tools
                 ImGui.End();
             }
             Widget.Render.ShowRender();
+            /*
             ImGui.Begin("Animation Timeline");
             AnimationTimeLine.Update(ref CurrentTick, ref Anim.TickPerSecond, ref Anim.Duration, ref CurrentTimelineZoom, Anim);
-            ImGui.End();
+            ImGui.End();*/
             ImGui.Begin("Animation");
             if (Ske != null)
             {
@@ -173,30 +156,9 @@ namespace GyrfalconToolKit.Editor.Tools
                 {
                     PlayAnimation = !PlayAnimation;
                 }
-            }
-            ImGui.PushItemWidth(100);
-
-            ImGui.InputFloat("Animation duration", ref Anim.Duration);
-
-            ImGui.InputInt("Animation tick per second", ref Anim.TickPerSecond);
-            ImGui.PopItemWidth();
-
-            if (ImGui.Button("Create Animation From Skeleton"))
-            {
-                foreach (Joint jt in Ske.Joints.Values)
+                if (ImGui.Button("ResetAnimation"))
                 {
-                    var JtData = new JointAnimationData()
-                    {
-                        JointName = jt.Name,
-                        DataCount = 1,
-                    };
-                    for (int i = 0; i < Anim.TickPerSecond * Anim.Duration; i++)
-                    {
-                        JtData.Data.Add(new RotationKey() { Rotation = jt.Rotation, Timestamp = i });
-
-                    }
-                    Anim.JointsAnimationData.Add(JtData.JointName, JtData
-                    );
+                    Animator.PlayAnimation(Anim, true);
                 }
             }
             ImGui.End();
@@ -205,29 +167,31 @@ namespace GyrfalconToolKit.Editor.Tools
             {
                 if (PlayAnimation)
                 {
-                    CurrentTick += (int)(Anim.TickPerSecond / (float)InputSystem.FrameEvent.Time * 0.1f);
-                    if (CurrentTick > Anim.Duration * Anim.TickPerSecond)
-                    {
-                        CurrentTick = 0;
-                    }
-                }
-                foreach (var Jt in Anim.JointsAnimationData.Values)
-                {
-                    Ske.GetJoint(Jt.JointName).Rotation = Jt.Data[CurrentTick].Rotation;
+                    Animator.Update((float)InputSystem.FrameEvent.Time);
                 }
                 Ske.DebugDraw();
 
             }
-            if(DebugModel != null && ShowDebugModel)
+            if (DebugModel != null && ShowDebugModel)
             {
-                DebugModel.Render(Matrix4.Identity, Ske, true);
+                DebugModel.Render(Matrix4.Identity, Ske,null, true);
             }
-        }
-        internal static void Render()
-        {
-            if (ShowDebugModel && DebugModel != null)
+            if (ImGui.BeginViewportSideBar("##InfoMenuBar", viewport, ImGuiDir.Down, height, window_flags))
             {
-                DebugModel.Draw(Shaders.PBRShader, Matrix4.Identity, Ske.GetAllJointsTransforms());
+                if (ImGui.BeginMenuBar())
+                {
+
+                    if (Ske != null && Anim != null)
+                    {
+                        ImGui.Text("Frame number: " + Anim.Duration * Anim.TickPerSecond);
+                    }
+                    else
+                    {
+                        ImGui.Text("Frame number: None");
+                    }
+                    ImGui.EndMenuBar();
+                }
+                ImGui.End();
             }
         }
 

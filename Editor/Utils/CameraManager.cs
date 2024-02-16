@@ -12,7 +12,7 @@ namespace GyrfalconToolKit.Editor.Utils
         {
             if (InputSystem.Mouse.IsButtonDown(MouseButton.Middle))
             {
-                Cam.Rotate(new Vector2(InputSystem.Mouse.Delta.X,-InputSystem.Mouse.Delta.Y) * (float)InputSystem.FrameEvent.Time);
+                Cam.Rotate(new Vector2(InputSystem.Mouse.Delta.X, -InputSystem.Mouse.Delta.Y) * (float)InputSystem.FrameEvent.Time);
             }
             Cam.Zoom(InputSystem.Mouse.ScrollDelta.Y);
             if (InputSystem.KeyPressed(Keys.T))

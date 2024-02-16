@@ -1,6 +1,4 @@
-﻿using NLog.LayoutRenderers.Wrappers;
-using OpenTK.Mathematics;
-using System.Diagnostics;
+﻿using OpenTK.Mathematics;
 namespace GyrfalconToolKit.Editor.Utils
 {
     public class ArcBallCamera
@@ -8,7 +6,6 @@ namespace GyrfalconToolKit.Editor.Utils
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 target = new Vector3(0f, 0f, 0f); // Au centre de la scène
         private float distance = 5.0f;
-
         public Vector3 Front
         {
             get
@@ -17,7 +14,6 @@ namespace GyrfalconToolKit.Editor.Utils
                 Front.Y = 0;
                 return Front.Normalized();
             }
-
         }
         public Vector3 Right
         {
@@ -27,29 +23,32 @@ namespace GyrfalconToolKit.Editor.Utils
                 return Vector3.Transform(Vector3.UnitX, Rotation);
             }
         }
+        public Vector3 Up
+        {
+            get
+            {
+                return Vector3.Normalize(Vector3.Cross(Right, Front));
+            }
+        }
         public Vector3 Position
         {
             get { return target + Vector3.Transform(Vector3.UnitZ * distance, rotation); }
         }
-
         public Quaternion Rotation
         {
             get { return rotation; }
             set { rotation = value; }
         }
-
         public Vector3 Target
         {
             get { return target; }
             set { target = value; }
         }
-
         public float Distance
         {
             get { return distance; }
             set { distance = value; }
         }
-
         public void Rotate(Vector2 delta)
         {
             float horizontalAngle = -delta.X;
@@ -68,20 +67,16 @@ namespace GyrfalconToolKit.Editor.Utils
 
             target += new Vector3(horizontalAngle, 0, verticalAngle);
         }
-
-
         public void Zoom(float delta)
         {
             distance -= delta;
             if (distance < 1.0f)
                 distance = 1.0f;
         }
-
         public Matrix4 GetViewMatrix()
         {
             Matrix4 lookAt = Matrix4.LookAt(Position, target, Rotation * Vector3.UnitY);
             return lookAt;
         }
     }
-
 }

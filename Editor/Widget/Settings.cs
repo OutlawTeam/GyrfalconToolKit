@@ -1,14 +1,8 @@
-﻿using Gyrfalcon.Debugs;
+﻿using Gyrfalcon.Engine.Debugs;
 using GyrfalconToolKit.Editor.Utils;
 using ImGuiNET;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GyrfalconToolKit.Editor.Widget
 {
@@ -31,7 +25,7 @@ namespace GyrfalconToolKit.Editor.Widget
         {
             Themes.Clear();
             string[] themes = Directory.GetFiles("Themes", "*.json");
-            foreach(string theme in themes)
+            foreach (string theme in themes)
             {
                 Themes.Add(JsonConvert.DeserializeObject<Theme>(File.ReadAllText(theme)));
             }
@@ -40,9 +34,9 @@ namespace GyrfalconToolKit.Editor.Widget
         internal static void LoadThemesSave()
         {
             Themesave = JsonConvert.DeserializeObject<ThemeSave>(File.ReadAllText("Themes/Theme.thc"));
-            foreach(Theme theme in Themes)
+            foreach (Theme theme in Themes)
             {
-                if (theme.Name== Themesave.SelectedTheme)
+                if (theme.Name == Themesave.SelectedTheme)
                 {
                     theme.LoadTheme(ImGui.GetStyle());
                 }
@@ -51,7 +45,7 @@ namespace GyrfalconToolKit.Editor.Widget
         internal static void SaveThemesSave()
         {
             string Json = JsonConvert.SerializeObject(Themesave);
-            File.WriteAllText( "Themes/Theme.thc",Json);
+            File.WriteAllText("Themes/Theme.thc", Json);
         }
         internal static void ShowSettings()
         {
@@ -62,7 +56,7 @@ namespace GyrfalconToolKit.Editor.Widget
                     ImGui.SetWindowSize(new Vector2(600, ImGui.GetIO().DisplaySize.Y * 0.8f));
                     ImGui.Columns(2);
                     ImGui.SetColumnWidth(0, 100);
-                    if(ImGui.Selectable("Themes"))
+                    if (ImGui.Selectable("Themes"))
                     {
                         PrefType = PreferencesType.Themes;
                     }
@@ -71,16 +65,16 @@ namespace GyrfalconToolKit.Editor.Widget
                         PrefType = PreferencesType.Others;
                     }
                     ImGui.NextColumn();
-                    if(PrefType == PreferencesType.Themes)
+                    if (PrefType == PreferencesType.Themes)
                     {
                         ImGui.Text("Themes");
-                        if(ImGui.Button($"{FontAwesome6.Repeat}"))
+                        if (ImGui.Button($"{FontAwesome6.Repeat}"))
                         {
                             LoadThemes();
                         }
-                        foreach(Theme theme in Themes)
+                        foreach (Theme theme in Themes)
                         {
-                            if(ImGui.Selectable(theme.Name))
+                            if (ImGui.Selectable(theme.Name))
                             {
                                 theme.LoadTheme(ImGui.GetStyle());
                                 Themesave.SelectedTheme = theme.Name;

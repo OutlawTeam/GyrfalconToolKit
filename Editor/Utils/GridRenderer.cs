@@ -1,11 +1,6 @@
-﻿using Gyrfalcon.Render.Components;
+﻿using Gyrfalcon.Engine.Module.Luxon.Data;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GyrfalconToolKit.Editor.Utils
 {
@@ -26,7 +21,7 @@ namespace GyrfalconToolKit.Editor.Utils
                         gl_Position = vec4(aPosition, 1.0) * model * view * projection;
                     }
                     ";
-        
+
         static string FragShader = @"
                     #version 330 core
                     out vec4 FragColor;
@@ -163,7 +158,7 @@ namespace GyrfalconToolKit.Editor.Utils
             int positionLocation = shader.GetAttribLocation("aPosition");
             GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(positionLocation);*/
-            float[] vertices = new float[] 
+            float[] vertices = new float[]
             {
                  1, 1, 0, -1, -1, 0, -1, 1, 0,
     -1, -1, 0, 1, 1, 0, 1, -1, 0
@@ -203,7 +198,7 @@ namespace GyrfalconToolKit.Editor.Utils
             GridShader.SetMatrix4A("projection", Matrix4.Transpose(Projection));
             GL.BindVertexArray(GridVAO);
             GL.Disable(EnableCap.DepthTest);
-            GL.DrawArrays(PrimitiveType.Triangles,0,6);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
             GL.BindVertexArray(0);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.DepthTest);

@@ -1,15 +1,12 @@
 ﻿using Assimp;
 using Assimp.Configs;
-using Gyrfalcon.Animation;
-using Gyrfalcon.Maths;
-using Gyrfalcon.Render;
-using Gyrfalcon.Render.PBR;
-using GyrfalconToolKit.Editor.Widget;
+using Gyrfalcon.Engine.Module.Animation;
+using Gyrfalcon.Engine.Module.Luxon;
+using Gyrfalcon.Engine.Module.Luxon.Data;
 using ImGuiNET;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using Quaternion = OpenTK.Mathematics.Quaternion;
-using Vector2 = System.Numerics.Vector2;
 using Vector3 = OpenTK.Mathematics.Vector3;
 namespace GyrfalconToolKit.Editor.Tools
 {
@@ -24,7 +21,7 @@ namespace GyrfalconToolKit.Editor.Tools
         static Dictionary<string, JointInfo> TempJointsMap = new();
         static int m_BoneCounter = 0;
         static Vector3 InitialRootPos = new Vector3(0);
-        static PBRAnimatedModel DebugModel = null;
+        static AnimatedModel DebugModel = null;
         static bool ShowDebugModel = false;
         internal static void DrawJointTree(Joint joint)
         {
@@ -53,7 +50,7 @@ namespace GyrfalconToolKit.Editor.Tools
         }
         static void ShowSkeletonEditor()
         {
-            
+
 
             ImGui.Begin("Skeleton Editor", ImGuiWindowFlags.MenuBar);
             if (Ske != null)
@@ -69,12 +66,12 @@ namespace GyrfalconToolKit.Editor.Tools
                 DrawJointTree(Ske.InitialJoint);
 
                 ImGui.Checkbox("Show Debug Model", ref ShowDebugModel);
-                
+
             }
             ImGui.End();
 
         }
-        internal static void Update(MainSubsystem sub)
+        internal static void Update()
         {
             var viewport = ImGui.GetMainViewport();
             float height = ImGui.GetFrameHeight();
@@ -131,7 +128,8 @@ namespace GyrfalconToolKit.Editor.Tools
                     if (Ske != null)
                     {
                         ImGui.Text("Joints number: " + Ske.Joints.Count);
-                    }else
+                    }
+                    else
                     {
                         ImGui.Text("Joints number: None");
                     }
@@ -184,21 +182,13 @@ namespace GyrfalconToolKit.Editor.Tools
                 ImGui.EndPopup();
             }
             Widget.Render.ShowRender();
-            Renderer.Aspect = 16f / 9f;
             if (Ske != null)
             {
                 Ske.DebugDraw();
             }
             if (DebugModel != null && ShowDebugModel)
             {
-                DebugModel.Render(Matrix4.Identity, Ske, true);
-            }
-        }
-        internal static void Render()
-        {
-            if (ShowDebugModel && DebugModel != null)
-            {
-                DebugModel.Draw(Shaders.PBRShader, Matrix4.Identity, Ske.GetAllJointsTransforms());
+                DebugModel.Render(Matrix4.Identity, Ske,null, true);
             }
         }
         static bool GetRootNode(Node nd, out Node pel)

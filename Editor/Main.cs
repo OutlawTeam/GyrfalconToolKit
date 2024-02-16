@@ -1,5 +1,4 @@
-﻿using Gyrfalcon.Maths;
-using Gyrfalcon.Subsystems;
+﻿using Gyrfalcon.Engine;
 using GyrfalconToolKit.Editor.Utils;
 using GyrfalconToolKit.Editor.Widget;
 using ImGuiNET;
@@ -17,13 +16,13 @@ namespace GyrfalconToolKit.Editor
         }
         static void MainMenuBar()
         {
-            var MainSubsystem = (MainSubsystem)SubsystemManager.GetSubsystem("MainSubsystem");
-           // ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 10));
+            GyrfalconToolKitApp App = (GyrfalconToolKitApp)Engine.GetClientApplication();
+            // ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 10));
             if (ImGui.BeginMainMenuBar())
             {
                 ImGui.PopStyleVar();
 
-                ImGui.Image(MainSubsystem.Icon.Handle, new Vector2(20, 20));
+                ImGui.Image(App.Icon.Handle, new Vector2(20, 20));
                 if (ImGui.BeginMenu("Tools"))
                 {
                     if (ImGui.MenuItem("Skeleton Editor"))
@@ -74,7 +73,7 @@ namespace GyrfalconToolKit.Editor
         {
             if (EditorState.CopyRight)
             {
-                if (ImGui.Begin("About", ref EditorState.CopyRight, ImGuiWindowFlags.NoResize |ImGuiWindowFlags.NoDocking))
+                if (ImGui.Begin("About", ref EditorState.CopyRight, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoDocking))
                 {
                     ImGui.SetWindowSize(new Vector2(250, 200));
                     ImGui.TextWrapped(String.Format(@"Gyrfalcon ToolKit v:{0}
@@ -88,7 +87,7 @@ Gyrfalcon v:{1}
 Dev:
 -Florian Pfeiffer
 "
-                    ,Version.ToolKitVersion ,Gyrfalcon.Engine.Version.EngineVersion));
+                    , Version.ToolKitVersion, Engine.GetVersion()));
                     ImGui.End();
                 }
             }
